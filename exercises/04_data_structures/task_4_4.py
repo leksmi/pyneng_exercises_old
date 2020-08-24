@@ -14,3 +14,7 @@ vlanы вручную.
 """
 
 vlans = [10, 20, 30, 1, 2, 100, 10, 30, 3, 4, 10]
+#
+vlan_set = set(vlans)
+vlans_uniq = sorted(list(vlan_set))
+print('Уникальные вланы (решение): ', vlans_uniq)

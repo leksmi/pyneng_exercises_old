@@ -19,3 +19,15 @@
 """
 
 ip = "192.168.3.1"
+#
+ip_list = ip.split('.')
+print(f'{ip_list[0]:<10}'
+      f'{ip_list[1]:<10}'
+      f'{ip_list[2]:<10}'
+      f'{ip_list[3]:<10}'
+      )
+print(f'{str(bin(int(ip_list[0]))).lstrip("0b"):<10}'
+      f'{str(bin(int(ip_list[1]))).lstrip("0b"):<10}'
+      f'{str(bin(int(ip_list[2]))).lstrip("0b"):<10}'
+      f'{str(bin(int(ip_list[3]))).lstrip("0b"):<10}'
+      )

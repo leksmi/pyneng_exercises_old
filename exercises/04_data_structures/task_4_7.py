@@ -10,3 +10,9 @@
 """
 
 mac = "AAAA:BBBB:CCCC"
+#
+mac_list = mac.split(':')
+print(f'{int(mac_list[0][0], 16):b}' * 4 +
+      f'{int(mac_list[1][0], 16):b}' * 4 +
+      f'{int(mac_list[2][0], 16):b}' * 4)
+
