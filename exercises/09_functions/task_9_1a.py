@@ -5,7 +5,7 @@
 Сделать копию функции generate_access_config из задания 9.1.
 
 Дополнить скрипт:
-* ввести дополнительный параметр, который контролирует будет ли настроен port-security
+* ввести дополнительный ПАРАМЕТР, который контролирует будет ли настроен port-security
  * имя параметра 'psecurity'
  * значение по умолчанию None
  * для настройки port-security, как значение надо передать список команд port-security (находятся в списке port_security_template)
@@ -41,3 +41,30 @@ port_security_template = [
 ]
 
 access_config = {"FastEthernet0/12": 10, "FastEthernet0/14": 11, "FastEthernet0/16": 17}
+
+def generate_access_config(intf_vlan_mapping, access_template, port_security, psecurity='None'):
+    """
+    intf_vlan_mapping - словарь с соответствием интерфейс-VLAN такого вида:
+        {'FastEthernet0/12':10,
+         'FastEthernet0/14':11,
+         'FastEthernet0/16':17}
+    access_template - список команд для порта в режиме access
+
+    Возвращает список всех портов в режиме access с конфигурацией на основе шаблона
+    """
+    access_mode_template = []
+    for intf in intf_vlan_mapping:
+        access_mode_template.append('interface ' + intf)
+        for command in access_template:
+            if command.endswith('access vlan'):
+                access_mode_template.append('{} {}'.format(command, intf_vlan_mapping[intf]))
+            else:
+                access_mode_template.append(command)
+        if psecurity != 'None':
+            for command in port_security:
+                access_mode_template.append(command)
+
+    return access_mode_template
+
+print(generate_access_config(access_config, access_mode_template, port_security_template, psecurity='True'))
+

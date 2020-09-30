@@ -4,7 +4,7 @@
 
 Создать функцию generate_access_config, которая генерирует конфигурацию для access-портов.
 
-Функция ожидает такие аргументы:
+Функция ожидает такие АРГУМЕНТЫ:
 
 - словарь с соответствием интерфейс-VLAN такого вида:
     {'FastEthernet0/12':10,
@@ -70,3 +70,22 @@ def generate_access_config(intf_vlan_mapping, access_template):
 
     Возвращает список всех портов в режиме access с конфигурацией на основе шаблона
     """
+    conf_intf = []
+    for intf in intf_vlan_mapping:
+        conf_intf.append('interface ' + intf)
+        for command in access_template:
+            if command.endswith('access vlan'):
+                conf_intf.append('{} {}'.format(command, intf_vlan_mapping[intf]))
+            else:
+                conf_intf.append(command)
+    return conf_intf
+
+print(generate_access_config(access_config, access_mode_template))
+
+#for command in result:
+#    print(command)
+#    if 'bpduguard enable' in command:
+#        print('\n')
+
+
+
