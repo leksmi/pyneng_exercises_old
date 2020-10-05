@@ -63,3 +63,36 @@ trunk_template = [
     "switchport mode trunk",
     "switchport trunk allowed vlan {}",
 ]
+
+# Get data from user:
+int_mode = input('Введите режим работы интерфейса (access/trunk): ')
+int_numb = input('Введите тип и номер интерфейса: ')
+vlan_s = input('ведите номер влан(ов): ')
+
+# Ver 1:
+int_templates_1 = {
+    'access': [f'interface {int_numb}', 'switchport mode access', f'switchport access vlan {vlan_s}', 'switchport nonegotiate', 'spanning-tree portfast', 'spanning-tree bpduguard enable'],
+    'trunk': [f'interface {int_numb}', 'switchport trunk encapsulation dot1q', 'switchport mode trunk', f'switchport trunk allowed vlan {vlan_s}']
+}
+
+print('\n')
+print('\n'.join(int_templates_1[int_mode]))
+
+# Ver 2:
+int_templates_2 = {
+    'access': [
+        "switchport mode access",
+        "switchport access vlan {}".format(vlan_s),
+        "switchport nonegotiate",
+        "spanning-tree portfast",
+        "spanning-tree bpduguard enable"
+        ],
+    'trunk': [
+        "switchport trunk encapsulation dot1q",
+        "switchport mode trunk",
+        "switchport trunk allowed vlan {}".format(vlan_s)
+        ]
+}
+
+print('\n')
+print(f'interface {int_numb}', '\n'.join(int_templates_2[int_mode]), sep='\n')
