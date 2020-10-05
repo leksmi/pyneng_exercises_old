@@ -49,3 +49,11 @@ london_co = {
         "routing": True,
     },
 }
+
+dev_name = input('Enter device name: ')
+params = list(london_co[dev_name].keys())
+params = ','.join(params)
+print('Input parametr name: ', params + ': ', end='')
+dev_param = input()
+# Для решения опрашиваем вложенный словарь Методом get(), который позволяет задать сообщение если ключ не найден:
+print(london_co[dev_name].get(dev_param, 'Wrong parametr !'))
