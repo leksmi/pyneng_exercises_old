@@ -32,4 +32,5 @@ Thumbs.db
 *.swp
 # My files
 .idea/
+draft*
 
