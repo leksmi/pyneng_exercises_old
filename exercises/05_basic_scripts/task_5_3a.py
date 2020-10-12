@@ -43,12 +43,12 @@ int_templates = {
         "switchport nonegotiate",
         "spanning-tree portfast",
         "spanning-tree bpduguard enable"
-        ],
+    ],
     'trunk': [
         "switchport trunk encapsulation dot1q",
         "switchport mode trunk",
         "switchport trunk allowed vlan {}".format(vlan_s)
-        ]
+    ]
 }
 
 print('\n')
