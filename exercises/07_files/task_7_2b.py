@@ -14,3 +14,18 @@
 """
 
 ignore = ["duplex", "alias", "Current configuration"]
+
+from sys import argv
+
+file_data = argv[1]
+file_target = 'config_sw1_cleared.txt'
+with open(file_data, 'r') as f, open(file_target, 'w') as ftarget:
+    for line in f:
+        marker = True
+        for deny_word in ignore:
+            if deny_word in line:
+                marker = False
+        if not marker:
+            continue
+        else:
+            ftarget.write(line)

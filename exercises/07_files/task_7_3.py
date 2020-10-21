@@ -17,3 +17,15 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+
+file_data = 'CAM_table.txt'
+
+with open(file_data, 'r') as f:
+    for line in f:
+        if not line.strip():
+            continue
+        line_list = line.split()
+        if line_list[0].isdigit():
+            print(f'{line_list[0]:<7} {line_list[1]:<20} {line_list[3]:<10}')
+
+
