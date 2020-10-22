@@ -42,7 +42,8 @@ port_security_template = [
 
 access_config = {"FastEthernet0/12": 10, "FastEthernet0/14": 11, "FastEthernet0/16": 17}
 
-def generate_access_config(intf_vlan_mapping, access_template, port_security, psecurity='None'):
+
+def generate_access_config(intf_vlan_mapping, access_template, *args, psecurity='None'):
     """
     intf_vlan_mapping - словарь с соответствием интерфейс-VLAN такого вида:
         {'FastEthernet0/12':10,
@@ -60,11 +61,20 @@ def generate_access_config(intf_vlan_mapping, access_template, port_security, ps
                 access_mode_template.append('{} {}'.format(command, intf_vlan_mapping[intf]))
             else:
                 access_mode_template.append(command)
-        if psecurity != 'None':
-            for command in port_security:
+        # if psecurity != 'None':                   # Проверка флага для необходимости добавить port-security команды
+        if args:  # Если args не пустой, формируется кортеж
+            for command in args[0]:  # Берем нулевой элемент кортежа (это переданный список) и берем его элементы
                 access_mode_template.append(command)
-
     return access_mode_template
 
-print(generate_access_config(access_config, access_mode_template, port_security_template, psecurity='True'))
 
+# Вызов функции как с двумя аргументами, так и с тремя (*args принимает на себя все, что после указанных параметров, формируя КОРТЕЖ)
+# result = generate_access_config(access_config, access_mode_template)
+result = generate_access_config(access_config, access_mode_template, port_security_template)
+
+# Проверка (вывод) результата (списка):
+for command in result:
+    if command.startswith('interface'):
+        print(f'\n{command}')
+    else:
+        print(command)
