@@ -80,12 +80,11 @@ def generate_access_config(intf_vlan_mapping, access_template):
                 conf_intf.append(command)
     return conf_intf
 
-print(generate_access_config(access_config, access_mode_template))
+result = generate_access_config(access_config_2, access_mode_template)
 
-#for command in result:
-#    print(command)
-#    if 'bpduguard enable' in command:
-#        print('\n')
-
-
+# Проверка (вывод) результата (списка):
+for command in result:
+   print(command)
+   if 'bpduguard enable' in command:
+       print('\n')
 
