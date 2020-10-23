@@ -57,7 +57,8 @@ trunk_config_2 = {
 # Итоговый список команд для заполнения:
 config_trunk = []
 
-def generate_trunk_config(intf_vlan_mapping, trunk_template):
+
+def generate_trunk_config(intf_vlan_mapping, trunk_template):  #
     # Перебираем интерфейсы (элементы словаря пары имя_интерфейса + вланы в нем)
     for intf in intf_vlan_mapping:
         config_trunk.append(f'interface {intf}')
@@ -73,12 +74,12 @@ def generate_trunk_config(intf_vlan_mapping, trunk_template):
 
     return config_trunk
 
+
 # Проверка работы:
-result = generate_trunk_config(trunk_config, trunk_mode_template)
-for item in result:
-    if 'allowed' in item:
-        print(item, '\n')
+result = generate_trunk_config(trunk_config_2, trunk_mode_template)
+
+for command in result:
+    if command.startswith('interface'):
+        print(f'\n{command}')
     else:
-        print(item)
-
-
+        print(command)
