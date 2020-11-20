@@ -13,7 +13,7 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
-
+from pprint import pprint
 
 trunk_mode_template = [
     "switchport mode trunk",
@@ -28,11 +28,13 @@ trunk_config = {
 }
 
 # Итоговый СЛОВАРЬ для заполнения:
-config_trunk = {}
 
-def generate_trunk_config(intf_vlan_mapping, trunk_template):
-    # Перебираем интерфейсы (элементы словаря пары имя_интерфейса + вланы в нем)
-    for intf in intf_vlan_mapping:
+# intf_vlan_mapping - словарь с парами интерфейс:[его вланы]
+# trunk_template - список команд для интерфейса
+def generate_trunk_config(intf_vlan_mapping, trunk_template):  #
+    config_dict = {}
+    for intf in intf_vlan_mapping:  # Перебираем интерфейсы (элементы словаря пары имя_интерфейса + вланы в нем)
+        config_trunk = []
         config_trunk.append(f'interface {intf}')
         # Перебираем команды для интерфейса
         for command in trunk_template:
@@ -43,5 +45,9 @@ def generate_trunk_config(intf_vlan_mapping, trunk_template):
                 config_trunk.append(f'{command} {vlans}')
             else:
                 config_trunk.append(command)
+        intf_dict = {intf: config_trunk}
+        config_dict.update(intf_dict)
 
-    return config_trunk
+    return config_dict
+
+#pprint(generate_trunk_config(trunk_config, trunk_mode_template))
