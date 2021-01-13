@@ -38,21 +38,22 @@ def ignore_command(command, ignore):
     return any(word in command for word in ignore)
 
 def convert_config_to_dict(config_filename):
-    result_dict = {}
+    result_dict = {}               # Итоговый словарь
     with open(config_filename, 'r') as conf:
         for line in conf:
-            line = line.rstrip()
-            if line.startswith('!') or line == '':
+            line = line.rstrip()   # Справа есть перевод строки, убираем
+            if line.startswith('!') or line == '': # По условию строки ! пропускаем
                 continue
-            elif ignore_command(line, ignore):
-                continue
+            elif ignore_command(line, ignore):     # По условию, используем функцию проверки слов игнорирования
+                continue                           # Если возвращает True, строку пропускаем
             else:
-                if not line.startswith(' '):
-                    key = line
-                    result_dict.update({key: []})
+                if not line.startswith(' '):       # Проверка, что строка НЕ является подкомандой
+                    key = line                     # Тогда строку делаем ключом
+                    result_dict.update({key: []})  # Добавляем в итоговый словарь со значением пустого списка
                 else:
-                    result_dict[key].append(line)
+                    result_dict[key].append(line)  # Иначе, используя имеющийся ключ добавляем подкоманду в список
 
     return result_dict
 
+#
 pprint(convert_config_to_dict('config_sw1.txt'))
