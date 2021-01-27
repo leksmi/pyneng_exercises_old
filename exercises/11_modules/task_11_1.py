@@ -31,6 +31,7 @@ R6           Fa 0/2          143           R S I           2811       Fa 0/0
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 '''
 
+from pprint import pprint
 
 def parse_cdp_neighbors(command_output):
     """
@@ -40,8 +41,26 @@ def parse_cdp_neighbors(command_output):
     работать и с файлами и с выводом с оборудования.
     Плюс учимся работать с таким выводом.
     """
-
+    comm_outp_list = command_output.split('\n')  # преобразовали строку вывода в список
+    result_dict = {}
+    for line in comm_outp_list:
+        if 'show cdp neighbors' in line:  # ищем имя текущего хоста
+            local_host = line.split('>')[0]
+            continue # остановить поиск имени
+        elif 'S I' in line:
+            local_intf = line.split()[1] + line.split()[2]  # локальный интерфейс
+            neib_dev = line.split()[0]  # соседнее устройство
+            neib_intf = line.split()[-2] + line.split()[-1]  # интерфейс соседнего устройства
+            dict_key = tuple((local_host, local_intf))
+            dict_value = tuple((neib_dev, neib_intf))
+            result_dict[dict_key] = dict_value
+    return result_dict
 
 if __name__ == "__main__":
     with open("sh_cdp_n_sw1.txt") as f:
-        print(parse_cdp_neighbors(f.read()))
+        pprint(parse_cdp_neighbors(f.read()))
+
+    # проверка вторым файлом из условия
+    print('*' * 35)
+    with open('sh_cdp_n_r3.txt', 'r') as f:
+        pprint(parse_cdp_neighbors(f.read()))
